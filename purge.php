@@ -16,9 +16,9 @@ if($strInPassword === $strPurgeKey){
 		$strPingURL = false;
 		
 		switch($strRepo){
-			case 'awards':
-				$strPingURL = 'http://google.com';
-				$strPingMethod = "GET";
+			case 'plugin-awards':
+				$strPingURL = 'https://eqdkp-plus.eu/wiki/Plugin:_Awards?action=purge';
+				$strPingMethod = "POST";
 			break;
 			
 		}
@@ -29,8 +29,7 @@ if($strInPassword === $strPurgeKey){
 			} else {
 				$result = post_fopen($strPingURL, "", "text/html; charset=utf-8", "", 5, 15);
 			}
-			
-			var_dump($result);
+
 		}
 	}
 }
