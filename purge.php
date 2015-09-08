@@ -1,16 +1,28 @@
 <?php
+ini_set('display_errors', 1);
+
 define('EQDKP_WIKITOOLS', true);
 include_once('keys.php');
 
-$strInPassword = $_GET['key'];
+$strInPassword = isset($_GET['key']) ? $_GET['key'] : false;
 $strPingMethod = "GET";
 
 if($strInPassword === $strPurgeKey){
-	$strRepo = $_GET['repo'];
-	
-	$arrHeaders = getallheaders ( );
+	$arrHeaders = getallheaders( );
 	
 	$strEvent = $arrHeaders['X-Github-Event'];
+	
+	echo "Event: ".$strEvent."; ";
+	
+	$arrRepo = isset($_POST['repository']) ? $_POST['repository'] : false;
+	if($arrRepo){
+		$strRepo = strtolower($arrRepo['full_name']);
+		$strRepo = stri_replace('EQdkpPlus/', '', $strRepo);
+		
+		echo "Found Repo ".$strRepo.'; ';
+	} else {
+		echo "No Repo found; ";
+	}
 	
 	if($strEvent === 'create' && $strRepo != ""){
 		$strPingURL = false;
@@ -29,10 +41,16 @@ if($strInPassword === $strPurgeKey){
 			} else {
 				$result = post_fopen($strPingURL, "", "text/html; charset=utf-8", "", 5, 15);
 			}
-
+			
+			echo "Ping executed for Repo ".$strRepo;
 		}
 	}
+} else {
+	
+	echo "No Purge Key.";
 }
+
+
 
 function post_fopen($url, $data, $content_type, $header, $conn_timeout, $timeout){
 		$url_array	= parse_url($url);
