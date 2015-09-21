@@ -1,8 +1,19 @@
 <?php
 
-if ($_GET["action"] == "version_compare")
+switch ($_GET["action"])
 {
-  print '{"result": "'.version_compare($_GET["check"], $_GET["latest"]).'"}';
+        case "compare_version":
+                $result = version_compare($_GET["sample"], $_GET["latest"]);
+                break;
+        case "contains_placeholder":
+                $result = "false";
+                if (strpos($_GET["sample"], "x"))
+                {
+                        $result = "true";
+                }
+                break;
 }
+
+print '{"result": "'.$result.'"}';
 
 ?>
