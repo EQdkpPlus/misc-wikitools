@@ -5,7 +5,7 @@ $result = "false";
 switch ($_GET["action"])
 {
         case "compare_version":
-                if (strpos($_GET["sample"], "x") > -1)
+                if (strpos($_GET["sample"], "x") !== false)
                 {
                         if (version_compare(str_replace("x", "0", $_GET["sample"]), $_GET["latest"]) != 1 && version_compare(str_replace("x", "999", $_GET["sample"]), $_GET["latest"]) != -1)
                         {
