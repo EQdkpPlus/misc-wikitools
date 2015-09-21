@@ -1,23 +1,23 @@
 <?php
 
-$result;
+$result = "false";
 
 switch ($_GET["action"])
 {
         case "compare_version":
-                if (strpos($_GET["sample"], "x"))
+                if (strpos($_GET["sample"], "x") > -1)
                 {
-                        if (version_compare(str_replace("x", "0", $_GET["sample"]), $_GET["latest"]) != -1)
+                        if (version_compare(str_replace("x", "0", $_GET["sample"]), $_GET["latest"]) != 1 && version_compare(str_replace("x", "999", $_GET["sample"]), $_GET["latest"]) != -1)
                         {
-                                $result = -1;
+                                $result = 0;
                         }
-                        elseif (version_compare(str_replace("x", "999", $_GET["sample"]), $_GET["latest"]) != 1)
+                        elseif (version_compare(str_replace("x", "999", $_GET["sample"]), $_GET["latest"]) == 1)
                         {
                                 $result = 1;
                         }
-                        else
+                        elseif (version_compare(str_replace("x", "0", $_GET["sample"]), $_GET["latest"]) == -1)
                         {
-                                $result = 0;
+                                $result = -1;
                         }
                 }
                 else
@@ -28,5 +28,5 @@ switch ($_GET["action"])
 }
 
 print '{"result": "'.$result.'"}';
-
+ 
 ?>
