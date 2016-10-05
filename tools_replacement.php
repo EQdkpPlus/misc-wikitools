@@ -25,7 +25,7 @@ class VersionCheck
 					$arrText = $this->compareVersion($this->get('version'), $eqdkp->getLatestVersion(), $lang, $this->get('repo'));
 					file_put_contents($strCacheFolder.$strCacheName.'.txt', serialize($arrText));
 				}
-                
+
                 $this->displayImage($arrText);
                 break;
         }
@@ -75,45 +75,39 @@ class VersionCheck
 			$icon = "";
 			switch ($result)
 			{
-				case 0:
-					$text .= 'aktuelle Version: '.$latest;
-					break;
 				case 1:
-					$text .= 'kommende Version: '.$sample;
-					$subtext = array('Wir übernehmen keinen Support für Funktionen oder Informationen,', 'die sich auf die zukünftige Version beziehen.');
+					$text .= 'kommende Version: ';
+					$subtext = array('Wir bieten keinen Support für Funktionen oder Informationen,', 'die sich auf die zukünftige Versionen beziehen.');
 					$icon = 'icons/attention.png';
 					break;
 				case -1:
-					$text .= 'veraltete Version: '.$sample;
+					$text .= 'veraltete Version: ';
 					$subtext = array('Bitte hilf mit, die fehlenden Informationen zu recherchieren ', 'und einzufügen.');
 					$icon = 'icons/clock.png';
 					break;
 			}
 
 		} else {
-			$text = 'This article.... ';
+			$text = 'This article refers to the ';
 			$subtext = "";
 			$icon = "";
 			switch ($result)
 			{
-				case 0:
-					$text .= 'aktuelle Version: '.$latest;
-					break;
 				case 1:
-					$text .= 'kommende Version: '.$sample;
-					$subtext = array('Wir übernehmen keinen Support für Funktionen oder Informationen,', 'die sich auf die zukünftige Version beziehen.');
+					$text .= 'future version: ';
+					$subtext = array('We do not offer support for functionality or informations', 'that refer to future versions.');
 					$icon = 'icons/attention.png';
 					break;
 				case -1:
-					$text .= 'veraltete Version: '.$sample;
-					$subtext = array('Bitte hilf mit, die fehlenden Informationen zu recherchieren ', 'und einzufügen.');
+					$text .= 'outdated version: ';
+					$subtext = array('Please help us investigate the missing informations', 'and update this article.');
 					$icon = 'icons/clock.png';
 					break;
 			}
 			
 		}
 
-        return array($result, $text, $subtext, $icon, $lang, $repo);
+        return array($result, $text.$sample, $subtext, $icon, $lang, $repo, $sample);
     }
 
     private function createImageWithText($text, $subtext, $myicon, $result)
@@ -169,7 +163,7 @@ class VersionCheck
 		}
 
 		//Check for cached images
-		$strCacheName = md5($arrText[0].'_'.$arrText[4].'_'.$arrText[5]);
+		$strCacheName = md5($arrText[0].'_'.$arrText[4].'_'.$arrText[5].'_'.$arrText[6]);
 		$strCacheFolder = 'cache/images/';
 		if(file_exists($strCacheFolder.$strCacheName.'.png') && (filemtime($strCacheFolder.$strCacheName.'.png')+3600 > time())){
 			echo file_get_contents($strCacheFolder.$strCacheName.'.png');
