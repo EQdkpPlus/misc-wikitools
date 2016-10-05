@@ -1,1 +1,0 @@
-a:7:{i:0;i:-1;i:1;s:61:"Dieser Artikel bezieht sich auf die veraltete Version: 2.0.13";i:2;a:2:{i:0;s:61:"Bitte hilf mit, die fehlenden Informationen zu recherchieren ";i:1;s:16:"und einzufügen.";}i:3;s:15:"icons/clock.png";i:4;s:2:"de";i:5;s:4:"core";i:6;s:6:"2.0.13";}
