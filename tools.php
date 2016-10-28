@@ -1,12 +1,14 @@
 <?php
-
+define('EQDKP_WIKITOOLS', true);
 require_once 'github.php';
+require_once 'keys.php';
 //ini_set('display_errors', 1);
 class VersionCheck
 {
     public function handler()
     {
-        switch ($this->get('action'))
+        global $clientsecret, $clientid;
+		switch ($this->get('action'))
         {
             case 'compare_version':
                 if (!$this->get('version') || !$this->get('repo'))
@@ -21,7 +23,7 @@ class VersionCheck
 				if(file_exists($strCacheFolder.$strCacheName.'.txt') && (filemtime($strCacheFolder.$strCacheName.'.txt')+3600 > time())){
 					$arrText = unserialize(file_get_contents($strCacheFolder.$strCacheName.'.txt'));
 				} else {
-					$eqdkp = new GitHub('EQdkpPlus', $this->get('repo'));
+					$eqdkp = new GitHub('EQdkpPlus', $this->get('repo'), $clientid, $clientsecret);
 					$arrText = $this->compareVersion($this->get('version'), $eqdkp->getLatestVersion(), $lang, $this->get('repo'));
 					file_put_contents($strCacheFolder.$strCacheName.'.txt', serialize($arrText));
 				}
@@ -106,6 +108,8 @@ class VersionCheck
 			}
 			
 		}
+		
+		if($latest == NULL) $result = 0;
 
         return array($result, $text.$sample, $subtext, $icon, $lang, $repo, $sample);
     }
